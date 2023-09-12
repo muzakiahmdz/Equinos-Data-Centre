@@ -116,6 +116,7 @@ python manage.py migrate
 
 ## Bagan Aplikasi Django
 ![logo](https://1.bp.blogspot.com/-u-n0WYPhc3o/X9nFtvNZB-I/AAAAAAAADrE/kD5gMaz4kNQIZyaUcaJJFVpDxdKrfoOwgCLcBGAsYHQ/s602/3.%2BPython%2BDjango%2B-%2BModul%2B2_Page2_Image5.jpg)
+Ketika seorang user mengunjungi situs web Django melalui browser, permintaan mereka dikirimkan ke server sebagai HTTP Request. Server Django kemudian menggunakan sistem routing untuk mencocokkan pola URL dengan permintaan tersebut. Setelah pola URL ditemukan, Django memanggil fungsi yang terkait dalam berkas views.py, di mana logika aplikasi dan interaksi dengan basis data dilaksanakan sesuai dengan struktur yang telah didefinisikan dalam berkas models.py. Setelah semua operasi selesai, fungsi dalam views.py menghasilkan halaman web yang diminta oleh pengguna, umumnya dalam bentuk berkas HTML yang disebut "template." Berkas HTML ini disimpan dalam direktori "templates" untuk penggunaan berikutnya. Akhirnya, browser pengguna akan merender berkas HTML ini sebagai tanggapan (HTTP Response) dari server Django, memungkinkan mereka melihat tampilan yang dihasilkan.
 
 ## Penggunaan Virtual Environment
 Virtual environment digunakan untuk memisahkan modul yang digunakan dalam proyek, mencegah konflik, dan menjaga keamanan. Ini memungkinkan pengembangan proyek yang lebih efisien dan terorganisir, menjauhkan kita dari masalah versi modul yang tidak cocok. Dengan virtual environment, proyek dapat dikembangkan secara paralel dengan proyek lain, lebih baik daripada menggunakan lingkungan global.
