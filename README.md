@@ -1,9 +1,9 @@
-Equinos Data Centre 
-Muzaki Ahmad Ridho Azizy - 2206824924 = PBP B
-Link Aplikasi : https://equinos.adaptable.app/main
+# Equinos Data Centre 
+# Muzaki Ahmad Ridho Azizy - 2206824924 - PBP B
+# Link Aplikasi : [Link App] (https://equinos.adaptable.app/main)
 ___________________________________________________________________________________________________________
-Pengerjaan Aplikasi
-!. Membuat proyek Django baru
+# Pengerjaan Aplikasi
+* 1. Membuat proyek Django baru
 Pertama, sebelum membuat proyek Django, persiapakn direktori lokal dan tidak lupa untuk mengaktifkan virtual environment dengan tujuan untuk mengisolasi package serta dependencies dari aplikasi saya agar tidak bertabrakan dengan versi satu sama lain yang ada di device yang saya guakan.
 ``` 
 python -m venv env # inisiasi virtual environment
@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 ```
 Setelah itu saya menambahkan file .gitignore karena ada file-file yang tidak perlu git lacak.
 
-2. Membuat aplikasi dengan nama main.
+* 2. Membuat aplikasi dengan nama main.
 Pembuatan aplikasi dengan nama main pada proyek ini dilakukan dengan menjalankan perintah
 ```
 python manage.py startapp main
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 ```
 Setelah itu, Tambahkan direktori baru templates pada direktori main dan menambahkan file main.html yang berfungsi untuk mengatur tampilan aplikasi main pada web.
 
-3. Melakukan routing pada proyek.
+* 3. Melakukan routing pada proyek.
 Untuk menghubungkan aplikasi main, edit berkas urls.py pada direktori utama dan impor fungsi include dari django.urls untuk mengimpor rute URL dari aplikasi main ke dalam berkas urls.py proyek.
 ```
 from django.urls import path, include
@@ -58,7 +58,7 @@ urlpatterns = [
     path('main/', include('main.urls')),
 ]
 ```
-4. Membuat model pada aplikasi main dengan nama Item dan memiliki atribut wajib sebagai berikut.
+* 4. Membuat model pada aplikasi main dengan nama Item dan memiliki atribut wajib sebagai berikut.
 
 name sebagai nama item dengan tipe CharField.
 amount sebagai jumlah item dengan tipe IntegerField.
@@ -83,13 +83,34 @@ category = tipe data CharField dengan batasan 50 karakter.
 description = tipe data TextField.
 Setelah ini, diperlukan untuk mengubah struktur tabel basis data sesuai dengan perubahan model yang telah didefinisikan pada kode di atas dengan menjalankan perintah berikut.
 
-Membuat migrasi model
+* Membuat migrasi model
 ```
 python manage.py makemigrations 
 ```
-Menerapkan migrasi ke dalam basis data lokal
+* Menerapkan migrasi ke dalam basis data lokal
 ```
 python manage.py migrate 
 ```
+* 5. Membuat sebuah fungsi pada views.py
 
+    - ```
+      def show_main(request):
+            context = {
+            'name': 'Muzaki Ahmad Ridho Azizy',
+            'app_name': 'Equinos',
+            'class': "PBP B"
+            }
+      ```
+    - Pada file '`main.html`, saya dapat mengakses isi dari _context_ dengan contohnya menulis `{{name}}`. `{{name}}` akan mengambil isi `name` dari _context_ yaitu 'Muzaki Ahmad Ridho Azizy'
+
+* F. Membuat sebuah _routing_ pada `urls.py` aplikasi main untuk memetakan fungsi yang telah dibuat pada `views.py`.
+    - Impor `path` dari `django.urls` dan impor `show_main` dari `main.views`
+    - Setelah itu, buat variable app_name yang berisi main seperti potongan kode berikut
+    - ```app_name = 'main'```
+    - Lalu menambahkan list bernama `urlpatterns` dan isi sebagai berikut
+    -  ```
+       urlpatterns = path('', show_main, name='show_main')
+
+* G. Melakukan _deployment_ ke Adaptable terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
+    - Saya membuat repositori baru bernama Equinos Data Centre di github, lalu saya hubungkan direktori equinos di lokal ke repositori CarRel di Github. Setelah itu, saya lakukan _add, commit, push_. Kemudian saya lakukan deploy di adaptable (Tidak lupa untuk memilih _template_ deployment, tipe basis data, versi _python_, masukan command yang sesuai, nama aplikasi yang sesuai dan centang bagian HTTP Listener on PORT).
 
