@@ -12,6 +12,7 @@ def item_list(request):
 def show_main(request):
     context = {
         'name': 'Muzaki Ahmad Ridho Azizy',
+        'app_name': 'Equinos',
         'class': 'PBP B'
     }
 
