@@ -1,4 +1,5 @@
 # Equinos Data Centre 
+![logo](https://th.bing.com/th/id/OIP.XuWVGpkbob-DpF8w345YGAHaEK?pid=ImgDet&rs=1)
 # Muzaki Ahmad Ridho Azizy - 2206824924 - PBP B
 # Link Aplikasi : [Link App](https://equinos.adaptable.app/main)
 ___________________________________________________________________________________________________________
