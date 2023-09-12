@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Karakter</title>
+</head>
+<body>
+    <h1>Daftar Karakter</h1>
+    <ul>
+        {% for character in characters %}
+            <li>{{ character.name }} - Level: {{ character.level }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

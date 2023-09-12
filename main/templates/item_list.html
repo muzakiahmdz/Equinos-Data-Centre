@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Item</title>
+</head>
+<body>
+    <h1>Daftar Item</h1>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.name }} - Jumlah: {{ item.amount }} - Deskripsi: {{ item.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
