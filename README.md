@@ -1,6 +1,6 @@
 # Equinos Data Centre 
 # Muzaki Ahmad Ridho Azizy - 2206824924 - PBP B
-# Link Aplikasi : [Link App] (https://equinos.adaptable.app/main)
+# Link Aplikasi : [Link App](https://equinos.adaptable.app/main)
 ___________________________________________________________________________________________________________
 # Pengerjaan Aplikasi
 * 1. Membuat proyek Django baru
@@ -103,7 +103,7 @@ python manage.py migrate
       ```
     - Pada file '`main.html`, saya dapat mengakses isi dari _context_ dengan contohnya menulis `{{name}}`. `{{name}}` akan mengambil isi `name` dari _context_ yaitu 'Muzaki Ahmad Ridho Azizy'
 
-* F. Membuat sebuah _routing_ pada `urls.py` aplikasi main untuk memetakan fungsi yang telah dibuat pada `views.py`.
+* 6. Membuat sebuah _routing_ pada `urls.py` aplikasi main untuk memetakan fungsi yang telah dibuat pada `views.py`.
     - Impor `path` dari `django.urls` dan impor `show_main` dari `main.views`
     - Setelah itu, buat variable app_name yang berisi main seperti potongan kode berikut
     - ```app_name = 'main'```
@@ -111,6 +111,6 @@ python manage.py migrate
     -  ```
        urlpatterns = path('', show_main, name='show_main')
 
-* G. Melakukan _deployment_ ke Adaptable terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
-    - Saya membuat repositori baru bernama Equinos Data Centre di github, lalu saya hubungkan direktori equinos di lokal ke repositori CarRel di Github. Setelah itu, saya lakukan _add, commit, push_. Kemudian saya lakukan deploy di adaptable (Tidak lupa untuk memilih _template_ deployment, tipe basis data, versi _python_, masukan command yang sesuai, nama aplikasi yang sesuai dan centang bagian HTTP Listener on PORT).
+* 7. Melakukan _deployment_ ke Adaptable terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
+    - Saya membuat repositori baru bernama Equinos Data Centre di github, lalu saya hubungkan direktori equinos di lokal ke repositori CarRel di Github. Setelah itu, saya lakukan _add, commit, push_. Kemudian saya lakukan deploy i adaptable (Tidak lupa untuk memilih _template_ deployment, tipe basis data, versi _python_, masukan command yang sesuai, nama aplikasi yang sesuai dan centang bagian HTTP Listener on PORT).
 
