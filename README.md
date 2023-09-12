@@ -69,18 +69,21 @@ Membuat model pada aplikasi main dilakukan dengan mengisi kode berikut pada berk
 ```
 from django.db import models
 
-class Product(models.Model):
+class Character(models.Model):
+    name = models.CharField(max_length=255)
+    level = models.IntegerField()
+    # Atribut lain yang relevan dengan karakter
+
+class Item(models.Model):
     name = models.CharField(max_length=255)
     amount = models.IntegerField()
-    price = models.IntegerField()
-    category = models.CharField(max_length=50)
     description = models.TextField()
+    # Atribut lain yang relevan dengan item
 ```
 Terbuat model bernama Product berisi lima atribut, yaitu:
 name = tipe data CharField dengan batasan 255 karakter.
 amount = tipe data IntegerField.
-price = tipe data IntegerField.
-category = tipe data CharField dengan batasan 50 karakter.
+level = tipe data IntegerField.
 description = tipe data TextField.
 Setelah ini, diperlukan untuk mengubah struktur tabel basis data sesuai dengan perubahan model yang telah didefinisikan pada kode di atas dengan menjalankan perintah berikut.
 
