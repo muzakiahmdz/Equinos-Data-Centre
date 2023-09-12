@@ -2,7 +2,7 @@
 # Muzaki Ahmad Ridho Azizy - 2206824924 - PBP B
 # Link Aplikasi : [Link App](https://equinos.adaptable.app/main)
 ___________________________________________________________________________________________________________
-# Pengerjaan Aplikasi
+## Pengerjaan Aplikasi
 * 1. Membuat proyek Django baru
 Pertama, sebelum membuat proyek Django, persiapakn direktori lokal dan tidak lupa untuk mengaktifkan virtual environment dengan tujuan untuk mengisolasi package serta dependencies dari aplikasi saya agar tidak bertabrakan dengan versi satu sama lain yang ada di device yang saya guakan.
 ``` 
@@ -114,3 +114,17 @@ python manage.py migrate
 * 7. Melakukan _deployment_ ke Adaptable terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
     - Saya membuat repositori baru bernama Equinos Data Centre di github, lalu saya hubungkan direktori equinos di lokal ke repositori CarRel di Github. Setelah itu, saya lakukan _add, commit, push_. Kemudian saya lakukan deploy i adaptable (Tidak lupa untuk memilih _template_ deployment, tipe basis data, versi _python_, masukan command yang sesuai, nama aplikasi yang sesuai dan centang bagian HTTP Listener on PORT).
 
+## Bagan Aplikasi Django
+![logo](https://1.bp.blogspot.com/-u-n0WYPhc3o/X9nFtvNZB-I/AAAAAAAADrE/kD5gMaz4kNQIZyaUcaJJFVpDxdKrfoOwgCLcBGAsYHQ/s602/3.%2BPython%2BDjango%2B-%2BModul%2B2_Page2_Image5.jpg)
+
+## Penggunaan Virtual Environment
+Virtual environment digunakan untuk memisahkan modul yang digunakan dalam proyek, mencegah konflik, dan menjaga keamanan. Ini memungkinkan pengembangan proyek yang lebih efisien dan terorganisir, menjauhkan kita dari masalah versi modul yang tidak cocok. Dengan virtual environment, proyek dapat dikembangkan secara paralel dengan proyek lain, lebih baik daripada menggunakan lingkungan global.
+
+## MVC, MVT, MVM
+- MVC (Model-View-Controller): Terdiri dari Model (data dan logika bisnis), View (tampilan), dan Controller (pengendali). Controller mengatur komunikasi antara Model dan View, memisahkan logika bisnis dari tampilan.
+
+- MVT (Model-View-Template): Mirip dengan MVC, dengan Model yang mengelola data, View yang mengatur tampilan, dan Template yang mengontrol bagaimana data ditampilkan dalam HTML. Tidak ada Controller karena kerja ini sudah diatur oleh framework.
+
+- MVVM (Model-View-ViewModel): Model mengurus data, View mengatur tampilan, dan ViewModel bertanggung jawab atas data binding, memungkinkan tampilan dan data berinteraksi tanpa perlu Controller.
+
+Pentingnya pola desain adalah untuk membantu organisasi dan pengembangan yang lebih efisien dalam pengembangan perangkat lunak. Ketiganya menggunakan komponen yang berbeda. MVC menggunakan Controller untuk mengatur alur Model dan View. MVT menggunakan Template untuk mengatur tampilan HTML dan tidak perlu mengelola Controller karena sudah dilakukan oleh Framework. Sementara MVVM menggunakan ViewModel sebagai perantara untuk menghubungkan tampilan dengan data melalui pembaruan Model.
