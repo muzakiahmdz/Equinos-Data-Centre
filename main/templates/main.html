@@ -1,8 +1,77 @@
-<h1>Equinos Data Centre</h1>
+{% extends 'base.html' %}
 
-<h5>Name: </h5>
-<p>{{name}}</p> <!-- Ubahlah sesuai dengan nama kamu -->
-<h5>App Name: </h5>
-<p>{{ app_name }}<p>
-<h5>Class: </h5>
-<p>{{class}}</p> <!-- Ubahlah sesuai dengan kelas kamu -->
+{% block content %}
+    <div style="margin: 20px;">
+        <h1>Equinos Data Centre</h1>
+
+        <div style="margin-top: 20px;">
+            <h5>Name:</h5>
+            <p>{{ name }}</p>
+
+            <h5>Class:</h5>
+            <p>{{ class }}</p>
+        </div>
+  
+       <!-- Tabel Karakter -->
+<h2 style="margin-top: 40px;">Character List</h2>
+<p>Kamu memiliki {{ jumlah_character }} karakter pada aplikasi ini.</p> <!-- Tambahkan pesan di sini -->
+<table style="width: 100%; border: 1px solid black; margin-top: 10px;">
+    <tr>
+        <th style="border: 1px solid black; padding: 10px;">Name</th>
+        <th style="border: 1px solid black; padding: 10px;">Level</th>
+    </tr>
+    {% for character in characters %}
+        <tr>
+            <td style="border: 1px solid black; padding: 10px;">{{ character.name }}</td>
+            <td style="border: 1px solid black; padding: 10px;">{{ character.level }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'main:create_character' %}">
+    <button style="margin-top: 10px;">Add New Character</button>
+</a>
+
+
+        <!-- Form Create Item -->
+        <h2 style="margin-top: 40px;">Create New Item</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'main:create_item' %}">
+            {% csrf_token %}
+            {{ item_form.as_p }}
+            <select name="owner" style="margin-top: 10px;">
+                <option value="" disabled selected>Select Character</option>
+                {% for character in characters %}
+                    <option value="{{ character.id }}">{{ character.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" style="margin-top: 10px;">Create Item</button>
+        </form>
+      
+   <!-- Item List -->
+<h2 style="margin-top: 40px;">Item List</h2>
+<p>Kamu menyimpan {{ jumlah_item }} item pada aplikasi ini.</p> <!-- Tambahkan pesan di sini -->
+<table style="border-collapse: collapse; width: 100%; border: 1px solid #000;">
+    <tr>
+        <th style="border: 1px solid #000; padding: 10px;">Name</th>
+        <th style="border: 1px solid #000; padding: 10px;">Amount</th>
+        <th style="border: 1px solid #000; padding: 10px;">Description</th>
+        <th style="border: 1px solid #000; padding: 10px;">Owner</th>
+    </tr>
+    {% for item in items %}
+        <tr>
+            <td style="border: 1px solid #000; padding: 10px;">{{ item.name }}</td>
+            <td style="border: 1px solid #000; padding: 10px;">{{ item.amount }}</td>
+            <td style="border: 1px solid #000; padding: 10px;">{{ item.description }}</td>
+            <td style="border: 1px solid #000; padding: 10px;">
+                {% if item.owner %}
+                    {{ item.owner.name }}
+                {% else %}
+                    None
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+    </div>
+{% endblock content %}

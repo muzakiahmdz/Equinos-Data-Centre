@@ -1,16 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Daftar Karakter</title>
-</head>
-<body>
-    <h1>Daftar Karakter</h1>
-    <ul>
-        {% for character in characters %}
-            <li>{{ character.name }} - Level: {{ character.level }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+<!-- charlist.html -->
+<h1>Character List</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Level</th>
+    </tr>
+    {% for character in characters %}
+        <tr>
+            <td>{{ character.name }}</td>
+            <td>{{ character.level }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h2>Add New Character</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ character_form.as_p }}
+    <button type="submit">Submit Character</button>
+</form>
 
