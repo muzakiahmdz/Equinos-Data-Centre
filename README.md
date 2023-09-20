@@ -423,4 +423,4 @@ Setelah itu tinggal adjust main.html agar dapat menampilkannya
 ```python
 <p>Kamu memiliki {{ jumlah_character }} karakter pada aplikasi ini.</p> 
 ```
-`(**NOTES: Lakukan hal yang serupa pada bagian html karakter)`
+`(**NOTES: Lakukan hal yang serupa pada bagian html item)`
