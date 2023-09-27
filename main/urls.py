@@ -1,10 +1,13 @@
 from django.urls import path
 from . import views
-from main.views import show_main,create_product, show_xml,show_json, show_character_by_id_xml, show_item_by_id_xml,show_character_by_id,show_item_by_id
+from main.views import *
 app_name = 'main'
 
 urlpatterns = [
-    
+
+    path('register/', register, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
     path('characters/', views.character_list, name='character_list'),
     path('items/', views.item_list, name='item_list'),
     path('', show_main, name='show_main'),
@@ -17,6 +20,9 @@ urlpatterns = [
     path('xml/item/<int:id>/', views.show_item_by_id_xml, name='show_item_by_id_xml'),
     path('json/character/<int:id>/', views.show_character_by_id, name='show_character_by_id'),
     path('json/item/<int:id>/', views.show_item_by_id, name='show_item_by_id'),
+    path('add_item/<int:item_id>/', views.add_item, name='add_item'),
+    path('reduce_item/<int:item_id>/', views.reduce_item, name='reduce_item'),
+    path('delete_item/<int:item_id>/', views.delete_item, name='delete_item'),
 
 
 

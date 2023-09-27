@@ -11,11 +11,16 @@ class CharacterForm(forms.ModelForm):
 from django.forms import ModelChoiceField
 
 class ItemForm(forms.ModelForm):
-    owner = ModelChoiceField(queryset=Character.objects.all(), empty_label="Pilih Karakter")
     class Meta:
         model = Item
         fields = ['name', 'amount', 'description', 'owner']
-
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ItemForm, self).__init__(*args, **kwargs)
+        
+        # Filter queryset karakter berdasarkan pengguna saat ini
+        if user:
+            self.fields['owner'].queryset = Character.objects.filter(user=user)
 
 class ProductForm(ModelForm):
     class Meta:

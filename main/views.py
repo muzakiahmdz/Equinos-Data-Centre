@@ -2,39 +2,88 @@ from django.shortcuts import render, get_object_or_404
 from .models import Character, Item
 from .forms import CharacterForm, ItemForm
 from django.http import HttpResponseRedirect
+import datetime
 from main.forms import ProductForm
 from main.models import Product
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 import xml.etree.ElementTree as ET
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages  
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
+def register(request):
+    form = UserCreationForm()
 
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+         login(request, user)
+         response = HttpResponseRedirect(reverse("main:show_main")) 
+         response.set_cookie('last_login', str(datetime.datetime.now()))
+         return response
+        else:
+            messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+    context = {}
+    return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
 
 def character_list(request):
     characters = Character.objects.all()
-    return render(request, 'main/character_list.html', {'characters': characters})
+    return render(request, 'main/char_list.html', {'characters': characters})
 
 def item_list(request):
     items = Item.objects.all()
     return render(request, 'main/item_list.html', {'items': items})
 
+@login_required(login_url='/login')
+
 def show_main(request):
     products = Product.objects.all()
-    characters = Character.objects.all()
-    items = Item.objects.all()
-    jumlah_character = len(characters)  # Menghitung jumlah karakter
-    jumlah_item = len(items)  # Menghitung jumlah item
+    user = request.user  # Info pengguna saat ini
+    username = request.user.username
+    
+    # Filter karakter yang dimiliki oleh pengguna saat ini menggunakan relasi 'owner'
+    characters = Character.objects.filter(user=request.user)  # Mengambil karakter berdasarkan pengguna saat ini
+    
+    # Filter item yang dimiliki oleh pengguna saat ini menggunakan relasi 'owner'
+    items = Item.objects.filter(owner__user=user)
+    
+    jumlah_character = characters.count()  # Menghitung jumlah karakter
+    jumlah_item = items.count()  # Menghitung jumlah item
+
+    last_login = request.COOKIES.get('last_login', 'Belum ada informasi login terakhir')  # Mengambil 'last_login' dari cookie atau default jika tidak ada
 
     context = {
-        'name': 'Muzaki Ahmad Ridho Azizy', # Nama kamu
-        'class': 'PBP B', # Kelas PBP kamu
+        'username': username,
+        'class': 'PBP B',  # Kelas PBP kamu
         'app_name': 'Equinos',
         'products': products,
         'characters': characters,
         'items': items,
         'jumlah_character': jumlah_character,  # Sertakan jumlah karakter dalam konteks
         'jumlah_item': jumlah_item, 
+        'last_login': last_login,
     }
 
     return render(request, "main.html", context)
@@ -127,42 +176,74 @@ def show_item_by_id(request, id):
     return JsonResponse(json_data, safe=False)
 
 def create_character(request):
-    character_form = CharacterForm(request.POST or None)
+    if request.method == 'POST':
+        character_form = CharacterForm(request.POST)
+        if character_form.is_valid():
+            character = character_form.save(commit=False)
+            character.user = request.user  # Menyediakan pengguna yang terkait
+            character.save()
+            return redirect('main:show_main')
+    else:
+        character_form = CharacterForm()
+    return render(request, "char_list.html", {'character_form': character_form})
 
-    if character_form.is_valid() and request.method == "POST":
-        character_form.save()
-        return HttpResponseRedirect(reverse('main:show_main'))
 
-    characters = Character.objects.all()  # Menambahkan definisi characters
-    context = {'character_form': character_form, 'characters': characters}  # Mengirim characters ke dalam konteks
-    return render(request, "char_list.html", context)
+def character_list(request):
+    characters = Character.objects.filter(user=request.user)
+    return render(request, 'char_list.html', {'characters': characters})
 
 def create_item(request):
+    error_message = ""
+    
     if request.method == "POST":
-        # Debug: Print request.POST data
-        print(request.POST)
-        
-        item_form = ItemForm(request.POST)
-        error_message = ""
+        item_form = ItemForm(request.POST, user=request.user)
 
         if item_form.is_valid():
             item = item_form.save(commit=False)
-            item.owner = Character.objects.get(pk=request.POST['owner'])  # Mengambil owner berdasarkan ID yang diposting
-            # Debug: Print item data
-            print(item.name, item.amount, item.description, item.owner)
-            
-            item.save()
-            return HttpResponseRedirect(reverse('main:show_main'))
+
+            # Dapatkan karakter yang dipilih oleh pengguna melalui formulir
+            selected_character = item_form.cleaned_data['owner']
+
+            # Pastikan karakter tersebut dimiliki oleh pengguna saat ini
+            if selected_character.user == request.user:
+                item.owner = selected_character
+
+                # Debug: Print item data
+                print(item.name, item.amount, item.description, item.owner)
+
+                item.save()
+                return HttpResponseRedirect(reverse('main:show_main'))
+            else:
+                error_message = "Anda tidak memiliki izin untuk mengaitkan item dengan karakter ini."
         else:
             error_message = "Terdapat kesalahan dalam formulir, silakan periksa kembali."
-    
     else:
         item_form = ItemForm()
-        error_message = ""
     
-    characters = Character.objects.all()  # Pindahkan deklarasi characters ke luar blok "else"
+    characters = Character.objects.filter(user=request.user)
     context = {'item_form': item_form, 'characters': characters, 'error_message': error_message}
     return render(request, "item_list.html", context)
+
+
+def add_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    if item.amount > 0:
+        item.amount += 1
+        item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def reduce_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    if item.amount > 0:
+        item.amount -= 1
+        item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
 
 
 

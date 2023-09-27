@@ -424,3 +424,447 @@ Setelah itu tinggal adjust main.html agar dapat menampilkannya
 <p>Kamu memiliki {{ jumlah_character }} karakter pada aplikasi ini.</p> 
 ```
 `(**NOTES: Lakukan hal yang serupa pada bagian html karakter)`
+
+
+### Tugas 4
+## **No 1**
+1. Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
+
+* UserCreationForm merupakan kelas formulir yang tersedia dalam Django, yang memudahkan proses penciptaan akun pengguna baru di aplikasi web. Kelas formulir ini secara bawaan menyertakan validasi untuk beberapa kolom seperti username, password1, dan password2.
+
+* Keunggulan dari UserCreationForm meliputi:
+
+- Integrasi yang Lancar: Formulir ini sudah menjadi bagian penting dari framework Django, sehingga mudah diintegrasikan ke dalam aplikasi web Django yang sedang dikembangkan.
+
+- Validasi Otomatis: UserCreationForm menyediakan validasi otomatis yang mencakup pemeriksaan kata sandi agar memenuhi persyaratan tertentu, seperti panjang dan kompleksitas yang cukup. Selain itu, formulir ini juga memastikan bahwa username yang digunakan adalah unik.
+
+- Dapat Disesuaikan: Kelas formulir ini bisa disesuaikan sesuai kebutuhan aplikasi. Ini memungkinkan penambahan kolom tambahan atau modifikasi pesan kesalahan yang ditampilkan.
+
+- Keamanan Terjamin: Dibangun dengan memperhatikan prinsip-prinsip keamanan terbaik, termasuk penyimpanan yang aman untuk kata sandi pengguna.
+
+* Kekurangan terkait UserCreationForm, yaitu:
+
+- Fitur Terbatas: Jika diperlukan fitur tambahan seperti autentikasi dua faktor atau konfirmasi melalui email, pengembang perlu mengimplementasikannya secara terpisah, karena fitur-fitur tersebut tidak disediakan oleh UserCreationForm.
+
+- Batasan dalam Validasi: Meskipun UserCreationForm menawarkan validasi bawaan, formulir ini mungkin memiliki keterbatasan dalam hal validasi data yang sangat spesifik sesuai kebutuhan aplikasi.
+
+- Tampilan Standar: Tampilan formulir secara default mungkin kurang menarik dan perlu disesuaikan agar sesuai dengan estetika tampilan aplikasi yang dikembangkan.
+
+## **No 2**
+2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+
+* Autentikasi adalah proses verifikasi identitas pengguna, sementara otorisasi berkaitan dengan mengatur hak akses pengguna setelah mereka terautentikasi. Autentikasi dalam Django melibatkan penggunaan username dan password untuk memastikan identitas pengguna. Setelah autentikasi, langkah selanjutnya adalah otorisasi, yang menentukan apa yang dapat diakses atau dilakukan oleh pengguna yang telah terautentikasi.
+
+* Keduanya sangat penting karena:
+
+- Keamanan: Autentikasi dan otorisasi menjaga keamanan aplikasi. Tanpa autentikasi, siapa pun dapat mengakses data atau fungsionalitas yang seharusnya tidak mereka akses. Tanpa otorisasi, pengguna yang terautentikasi mungkin memiliki akses yang tidak terkontrol ke bagian-bagian sensitif dari aplikasi.
+
+- Kontrol Akses: Otorisasi memungkinkan pengembang untuk mengontrol dengan tepat siapa yang dapat melakukan apa di dalam aplikasi. Ini membantu menjaga integritas data dan melindungi privasi pengguna.
+
+- Kepatuhan: Dalam beberapa kasus, aplikasi perlu mematuhi peraturan dan regulasi tertentu yang mengharuskan implementasi autentikasi dan otorisasi yang kuat.
+
+Dengan kombinasi autentikasi dan otorisasi yang baik, pengembang dapat memastikan bahwa pengguna hanya memiliki akses ke bagian dari aplikasi yang sesuai dengan peran dan hak akses mereka, sehingga menjaga keamanan dan keutuhan data.
+
+## **No 3**
+3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+* Cookies dalam konteks aplikasi web adalah file kecil yang disimpan di peramban web pengguna. Mereka digunakan untuk menyimpan informasi seperti data sesi pengguna atau preferensi untuk meningkatkan interaksi antara pengguna dan situs web.
+
+* Dalam Django, cookies digunakan terutama untuk mengelola data sesi pengguna. Saat pengguna mengakses aplikasi web Django, cookie unik yang sering disebut sebagai sessionid diciptakan dan disimpan di peramban pengguna. Ketika pengguna kembali ke aplikasi, cookie ini dikirim kembali ke server Django, memungkinkan server mengenali dan mengembalikan data sesi yang terkait dengan pengguna tersebut. Ini sangat penting untuk menjaga kontinuitas sesi dan memungkinkan pengguna untuk tetap masuk dan menjaga preferensi mereka selama interaksi dengan aplikasi.
+
+## **No 4**
+4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+* Penggunaan cookies dalam pengembangan web tidak dapat dianggap aman secara default dan harus diperlakukan dengan serius dalam hal keamanan. Cookies berfungsi untuk menyimpan berbagai informasi, termasuk data sesi, preferensi, dan bahkan informasi login, yang secara alami membawa sejumlah risiko potensial yang harus diwaspadai.
+
+* Beberapa risiko potensial yang perlu diwaspadai meliputi potensi serangan Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), dan penggunaan cookies pihak ketiga yang dapat mengancam privasi pengguna.
+
+* Untuk mengatasi risiko ini, tindakan keamanan harus diambil. Ini termasuk mengenkripsi data yang disimpan dalam cookies, menetapkan waktu kadaluarsa yang sesuai, serta memastikan bahwa cookies hanya digunakan dalam koneksi yang aman. Penerapan protokol keamanan yang ketat akan membantu melindungi data sensitif pengguna.
+
+
+## **No 5**
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
+   * A. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+     - Fungsi Registrasi
+       - Import kode berikut di `views.py` pada dirketori aplikasi `main`
+         ```py
+         from django.shortcuts import redirect
+         from django.contrib.auth.forms import UserCreationForm
+         from django.contrib import messages  
+         ```
+       - Setelah itu, buat fungsi `register` yang berfungsi untuk meminta parameter request dan beiris
+         ```py
+         def register(request):
+         form = UserCreationForm()
+    
+         if request.method == "POST":
+             form = UserCreationForm(request.POST)
+             if form.is_valid():
+                 form.save()
+                 messages.success(request, 'Your account has been successfully created!')
+                 return redirect('main:login')
+         context = {'form':form}
+         return render(request, 'register.html', context)
+         ```
+       - Lalu buat file `register.html` pada direktori `templates` pada direktori aplikasi main dengan nama `bse.html`  dengan kode sebagai berikut
+         ```py
+            {% extends 'base.html' %}
+
+            {% block meta %}
+                <title>Register</title>
+            {% endblock meta %}
+            
+            {% block content %}  
+            
+            <div class = "login">
+                
+                <h1>Register</h1>  
+            
+                    <form method="POST" >  
+                        {% csrf_token %}  
+                        <table>  
+                            {{ form.as_table }}  
+                            <tr>  
+                                <td></td>
+                                <td><input type="submit" name="submit" value="Daftar"/></td>  
+                            </tr>  
+                        </table>  
+                    </form>
+            
+                {% if messages %}  
+                    <ul>   
+                        {% for message in messages %}  
+                            <li>{{ message }}</li>  
+                            {% endfor %}  
+                    </ul>   
+                {% endif %}
+            
+            </div>  
+            
+            {% endblock content %}
+         ```
+        - Setelah itu, import fungsi register yang sudah dibuat pada subdirektori `main` 
+          ```py
+          from main.views import register 
+          ``` 
+        - Setelah itu, tambahkan _path url_ ke dalam `urlpatterns` agar mengakses fungsi register yang sudah dibuat
+
+          ```py
+          path('register/', register, name='register'),
+          ```
+     
+     - Fungsi Login
+       - Import kode berikut di `views.py` pada direktori aplikasi main
+       
+         ```py
+         from django.contrib.auth import authenticate, login        
+         ```
+       - Kemudian buat fungsi `login_user` di `views.py` pada direktori aplikasi main dengan kode berikut:
+         ```py
+        def login_user(request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main")) 
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
+            else:
+                messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+        context = {}
+        return render(request, 'login.html', context)
+         ```
+       
+        - Setelah itu, buat `login.html` pada direktori `main/templates` dengan kode berikut:
+         ```py
+         {% extends 'base.html' %}
+
+         {% block meta %}
+             <title>Login</title>
+         {% endblock meta %}
+            
+         {% block content %}
+            
+         <div class = "login">
+            
+             <h1>Login</h1>
+            
+             <form method="POST" action="">
+                 {% csrf_token %}
+                 <table>
+                     <tr>
+                         <td>Username: </td>
+                         <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+                     </tr>
+                                
+                     <tr>
+                         <td>Password: </td>
+                         <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+                     </tr>
+            
+                     <tr>
+                         <td></td>
+                         <td><input class="btn login_btn" type="submit" value="Login"></td>
+                     </tr>
+                 </table>
+             </form>
+            
+             {% if messages %}
+                 <ul>
+                     {% for message in messages %}
+                         <li>{{ message }}</li>
+                     {% endfor %}
+                 </ul>
+             {% endif %}     
+                    
+             Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+            
+         </div>
+            
+         {% endblock content %}
+            
+         ```
+
+        - Setelah itu, import pada urls.py pada subdirektori `main` dengan kode berikut:
+         ```py
+         from main.views import login_user
+         ```
+        - Setelah itu, tambahkan path url untuk login pada `urlpatterns` dengan kode sebagai berikut:
+         ```py
+         path('login/', login_user, name='login'),
+         ```
+     - Fungsi Logout
+       - import kode berikut di `views.py` direktori aplikasi
+         ```py
+         from django.contrib.auth import logout
+         ```
+       - Buat fungsi `logout_user` di `views.py` direktori aplikasi dengan kode berikut:
+         ```py
+         def logout_user(request):
+           logout(request)
+           response = HttpResponseRedirect(reverse('main:login'))
+           response.delete_cookie('last_login')
+           return response
+         ```
+         Disini dilakukan penghapusan cookie dengan key `last_login` saat user logout
+
+       - Setelah itu, tambahkan button logout di `main.html` dengan kode berikut
+         ```py
+         
+            <a href="{% url 'main:logout' %}">
+                <button>
+                    Logout
+                </button>
+            </a>
+            
+         ```
+       - Setelah itu, import fungsi `logout_user` di `urls.py` di subdirektori main
+         ```py
+         from main.views import logout_user
+         ```
+       - Setalah itu, routing ke dalam `urlpatterns` di `urls.py` di subdirektori main
+         ```py
+            path('logout/', logout_user, name='logout'),
+         ```
+     - Restriksi akses aplikasi
+       - import `login_required` di `views.py`
+       - Tambahkan `@login_required(login_url='/login')` di atas fungsi `show_main`
+   
+
+
+   * B. Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+   ![image](https://i.imgur.com/umDHtbM.png) 
+   ![image](https://i.imgur.com/GXs6Xij.png)
+   
+
+   * C.Menghubungkan model Item dengan User 
+     - Melakukan import pada `models.py`
+     ```py
+     from django.contrib.auth.models import User
+     ```
+     - Sesuaikan pada  `models.py`
+     ```py
+    class Character(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    level = models.IntegerField()
+    # Atribut lain yang relevan dengan karakter
+
+    class Item(models.Model):
+        name = models.CharField(max_length=255)
+        amount = models.IntegerField()
+        description = models.TextField()
+        owner = models.ForeignKey(Character, on_delete=models.CASCADE, default=None, null=True)  # Menambahkan relasi dengan Character
+
+        #Atribut lain yang relevan dengan item
+     ```
+     - Tambahkan potongan kode pada `create_item` di `views.py` agar item yang dibuat terasosiasi pada user
+     ```py
+     def create_character(request):
+    if request.method == 'POST':
+        character_form = CharacterForm(request.POST)
+        if character_form.is_valid():
+            character = character_form.save(commit=False)
+            character.user = request.user  # Menyediakan pengguna yang terkait
+            character.save()
+            return redirect('main:show_main')
+    else:
+        character_form = CharacterForm()
+    return render(request, "char_list.html", {'character_form': character_form})
+     ```
+     - Setelah itu, ubah fungsi `show_main` menjadi
+
+     - ```py
+       def show_main(request):
+        products = Product.objects.all()
+        user = request.user  # Info pengguna saat ini
+        username = request.user.username
+        
+        # Filter karakter yang dimiliki oleh pengguna saat ini menggunakan relasi 'owner'
+        characters = Character.objects.filter(user=request.user)  # Mengambil karakter berdasarkan pengguna saat ini
+        
+        # Filter item yang dimiliki oleh pengguna saat ini menggunakan relasi 'owner'
+        items = Item.objects.filter(owner__user=user)
+        
+        jumlah_character = characters.count()  # Menghitung jumlah karakter
+        jumlah_item = items.count()  # Menghitung jumlah item
+
+        last_login = request.COOKIES.get('last_login', 'Belum ada informasi login terakhir')  # Mengambil 'last_login' dari cookie atau default jika tidak ada
+
+        context = {
+            'username': username,
+            'class': 'PBP B',  # Kelas PBP kamu
+            'app_name': 'Equinos',
+            'products': products,
+            'characters': characters,
+            'items': items,
+            'jumlah_character': jumlah_character,  # Sertakan jumlah karakter dalam konteks
+            'jumlah_item': jumlah_item, 
+            'last_login': last_login,
+        }
+
+        return render(request, "main.html", context)
+
+       ```
+       
+     - Setelah itu, jangan lupa lakukan migrasi
+   
+    
+   * D. Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.  
+     - Menampilkan username pengguna
+       Pada fungsi `show_main` di `views.py` ubah isi context dengan key `name` menjadi berikut
+       ```py
+       'name': request.user.username,
+       ```
+     - Menerapkan cookies last login
+       Penerapannya sudah dijelaskan diatas untuk menampilkan last login, lalu tambahkan kode berikut pada context di `show_main`
+       ```py
+       'last_login': request.COOKIES['last_login'],
+       ```
+     - Tambahkan kode berikut di `main.html`
+       ```py
+       <h5>Last login session: {{ last_login }}</h5>
+       ```
+     - Tampilan 
+       ![image](https://i.imgur.com/tVMi9Bz.png)
+
+## **No 6**
+6. Bonus
+   - Buat tiga tombol yaitu + Amount (untuk increment amount) , - Amount (untuk decrement amount), dan Delete (delete item)
+   ```html
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.description }}</td>
+        <td>
+            <form method="post" action="{% url 'main:add_item' item.id %}">
+                {% csrf_token %}
+                <button type="submit">Tambah</button>
+            </form>
+            <form method="post" action="{% url 'main:reduce_item' item.id %}">
+                {% csrf_token %}
+                <button type="submit">Kurang</button>
+            </form>
+            <form method="post" action="{% url 'main:delete_item' item.id %}">
+                {% csrf_token %}
+                <button type="submit">Hapus</button>
+            </form>
+        </td>
+    </tr>
+   ```
+    - Tambahkan URL dan View untuk Menangani Aksi Tambah, Kurang, dan Hapus:
+
+    Di dalam urls.py, tambahkan URL dan view yang akan menangani aksi tambah, kurang, dan hapus item.
+
+    ```py
+    Copy code
+    path('add_item/<int:item_id>/', views.add_item, name='add_item'),
+    path('reduce_item/<int:item_id>/', views.reduce_item, name='reduce_item'),
+    path('delete_item/<int:item_id>/', views.delete_item, name='delete_item'),
+    ```
+
+    - Kemudian, di dalam views.py, buat tiga view untuk menangani aksi-aksi tersebut:
+
+    ```python
+    def add_item(request, item_id):
+        item = get_object_or_404(Item, pk=item_id)
+        if item.amount > 0:
+            item.amount += 1
+            item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    def reduce_item(request, item_id):
+        item = get_object_or_404(Item, pk=item_id)
+        if item.amount > 0:
+            item.amount -= 1
+            item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    def delete_item(request, item_id):
+        item = get_object_or_404(Item, pk=item_id)
+        item.delete()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    ```
+
+    - Mengatasi Masalah Tidak Ada Owner saat Menambahkan Item:
+
+    Untuk mengatasi masalah bahwa item yang ditambahkan tidak memiliki owner, perbarui logic di views.py saat membuat objek item baru. Daripada menggunakan pemilihan karakter di dalam form, tentukan pemiliknya berdasarkan pengguna yang saat ini masuk. Misalnya:
+
+    ```python
+    def create_item(request):
+        error_message = ""
+
+        if request.method == "POST":
+            item_form = ItemForm(request.POST)
+
+            if item_form.is_valid():
+                item = item_form.save(commit=False)
+
+                # Dapatkan karakter yang dimiliki oleh pengguna saat ini
+                user_characters = Character.objects.filter(user=request.user)
+
+                # Pastikan pengguna memiliki karakter
+                if user_characters.exists():
+                    # Pilih karakter pertama pengguna sebagai pemilik item
+                    selected_character = user_characters.first()
+
+                    item.owner = selected_character
+
+                    # Debug: Print item data
+                    print(item.name, item.amount, item.description, item.owner)
+
+                    item.save()
+                    return HttpResponseRedirect(reverse('main:show_main'))
+                else:
+                    error_message = "Anda tidak memiliki karakter untuk mengaitkan item ini."
+            else:
+                error_message = "Terdapat kesalahan dalam formulir, silakan periksa kembali."
+        else:
+            item_form = ItemForm()
+
+        characters = Character.objects.filter(user=request.user)
+        context = {'item_form': item_form, 'characters': characters, 'error_message': error_message}
+        return render(request, "item_list.html", context)
+
+    ```
