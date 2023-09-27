@@ -423,6 +423,7 @@ Setelah itu tinggal adjust main.html agar dapat menampilkannya
 ```python
 <p>Kamu memiliki {{ jumlah_character }} karakter pada aplikasi ini.</p> 
 ```
+<<<<<<< HEAD
 `(**NOTES: Lakukan hal yang serupa pada bagian html karakter)`
 
 
@@ -868,3 +869,6 @@ Dengan kombinasi autentikasi dan otorisasi yang baik, pengembang dapat memastika
         return render(request, "item_list.html", context)
 
     ```
+=======
+`(**NOTES: Lakukan hal yang serupa pada bagian html item)`
+>>>>>>> 1bf2a98a90105d703f4b810111b2b344451396e4
