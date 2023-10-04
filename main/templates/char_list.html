@@ -2,46 +2,49 @@
 <html>
 <head>
     <title>Character List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        .card {
+            margin-bottom: 20px;
         }
-
-        th, td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .last-card {
+            background-color: #FFD700; /* Gold */
+            color: #4B0082; /* Indigo */
         }
     </style>
 </head>
 <body>
-    <h1>Character List</h1>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Level</th>
-        </tr>
-        {% for character in characters %}
-            <tr>
-                <td>{{ character.name }}</td>
-                <td>{{ character.level }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h1 class="text-center mb-5">Character List</h1>
+        <div class="row">
+            {% for character in characters %}
+                <div class="col-md-4">
+                    <div class="card {% if forloop.last %}last-card{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ character.name }}</h5>
+                            <p class="card-text">Level: {{ character.level }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-    <h2>Add New Character</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ character_form.as_p }}
-        <button type="submit">Submit Character</button>
-    </form>
+        <h2 class="mt-5">Add New Character</h2>
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ character_form.as_p }}
+                    <button type="submit" class="btn btn-primary mt-3">Submit Character</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+            integrity="sha384-9Zm6zvQJ5z3zKJ8z5zv8zJQJ8z5zv8zJQJ8z5zv8zJQJ8z5zv8zJQJ8z5zv8zJQJ8"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

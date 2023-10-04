@@ -869,6 +869,357 @@ Dengan kombinasi autentikasi dan otorisasi yang baik, pengembang dapat memastika
         return render(request, "item_list.html", context)
 
     ```
+
+
+### Tugas 5
+# 1. Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+
+Element selector dalam CSS digunakan untuk memilih elemen HTML berdasarkan nama elemen atau tag-nya. Ada beberapa manfaat yang dapat diberikan oleh penggunaan element selector, dan waktu yang tepat untuk menggunakannya tergantung pada kebutuhan desain dan struktur halaman web:
+
+- Seleksi Spesifik Elemen: Element selector memungkinkan untuk memilih elemen HTML dengan sangat spesifik berdasarkan nama elemen. Misalnya, dapat menggunakan p untuk memilih semua elemen paragraf dalam dokumen.
+
+Kapan menggunakannya: Ketika ingin menerapkan gaya atau aturan tertentu ke semua elemen dengan tag yang sama di seluruh situs web. Misalnya, jika ingin memastikan bahwa semua paragraf dalam situs memiliki font yang sama.
+
+- Seleksi Elemen Tertentu: juga dapat menggunakan element selector bersama dengan selektor lain, seperti class atau ID, untuk memilih elemen yang lebih spesifik. Contohnya adalah div.sidebar p, yang memilih semua elemen paragraf yang berada di dalam elemen div dengan class "sidebar".
+
+Kapan menggunakannya: Ketika perlu memilih elemen-elemen spesifik di dalam elemen lain untuk mengatur gaya atau perilaku mereka.
+
+- Mengatur Nilai Default: Element selector juga dapat digunakan untuk mengatur nilai default untuk elemen-elemen tertentu. Misalnya, dapat menggunakan ul untuk mengatur nilai default untuk daftar tak terurut (unordered list) dalam situs.
+
+Kapan menggunakannya: Ketika ingin mengatur nilai default untuk semua elemen dengan tag tertentu dalam dokumen, dan kemudian menyesuaikannya lebih lanjut dengan selektor lain jika diperlukan.
+
+- Meningkatkan Kejelasan Kode: Element selector dapat digunakan untuk meningkatkan kejelasan kode CSS. Saat membaca kode CSS, pengguna atau pengembang lain dapat dengan mudah memahami bahwa sedang mengatur gaya untuk elemen dengan tag tertentu.
+
+Kapan menggunakannya: Selalu gunakan element selector ketika ingin mengatur gaya atau perilaku elemen berdasarkan tag HTML-nya untuk meningkatkan kejelasan kode.
+
+Namun, perlu diingat bahwa penggunaan element selector dengan sangat spesifik (misalnya, body p untuk memilih semua elemen paragraf dalam halaman web) dapat mengakibatkan seleksi yang sangat luas dan mempengaruhi kinerja halaman web. Oleh karena itu, selalu pertimbangkan penggunaan selektor yang lebih spesifik seperti class atau ID jika memungkinkan.
+
+
+# 2. Jelaskan HTML5 Tag yang kamu ketahui.
+* | No | Tag           |Penjelasan |
+   |----|---------------|---|
+   | 1  | `<html>`      |  digunakan untuk mengawali dan mengakhiri seluruh kode atau dokumen HTML
+   | 2  | `<head>`      |  digunakan untuk menyertakan informasi meta, judul halaman web, dan menghubungkan html dengan _stylesheet_ serta Javascript
+   | 3  | `<title>`     |  digunakan untuk menentukan judul halaman web yang ditampilkan
+   | 4  | `<meta>`      |  digunakan untuk mendefinisikan metadata tentang halaman web, seperti karakter set, deskripsi, dan informasi lain yang relevan.
+   | 5  | `<link>`      |  digunakan untuk mengawali dan mengakhiri seluruh kode atau dokumen HTML
+    | 6  | `<body>`      |   berisi konten utama halaman web yang akan ditampilkan kepada pengguna, seperti teks, gambar, dan elemen-elemen lainnya.
+   | 7  | `<h1> - <h6>` |  Tag-tag ini digunakan untuk mengatur tingkat judul atau heading. h1 adalah yang tertinggi , sementara h6 adalah yang terendah.HTML
+   | 8  | `<p>`         |  digunakan untuk membuat paragraf teks.
+   | 9  | `<a>`         |  digunakan untuk membuat tautan atau hyperlink ke halaman web atau sumber daya lainnya.
+   | 10 | `<img>`      |  digunakan untuk menampilkan gambar di halaman web.
+   | 11 | `<ul>`      |  digunakan untuk membuat daftar tak terurut (unordered list), yang berisi elemen-elemen dalam bentuk daftar bulleted.
+   | 12 | `<ol>`      |  digunakan untuk membuat daftar terurut (ordered list), yang berisi elemen-elemen dalam bentuk daftar bernomor.
+   | 13 | `<li>`      |  digunakan untuk mendefinisikan elemen-elemen dalam daftar (baik daftar tak terurut maupun terurut).
+   | 14 | `<div>`      |  elemen blok yang digunakan untuk mengelompokkan dan mengatur elemen-elemen HTML lainnya dalam sebuah kotak atau wadah. Ini sering digunakan dalam desain tata letak halaman.
+   | 15 | `<span>`      |  digunakan untuk mengaplikasikan gaya atau mengelompokkan sebagian kecil dari teks atau elemen dalam dokumen.
+
+
+# 3. Jelaskan perbedaan antara margin dan padding.
+* | Perbedaan | Margin   | Padding                                                       |
+   |-----------|----------|---------------------------------------------------------------|
+   | Fungsi Utama         | Ruang di luar elemen, mempengaruhi tata letak elemen dalam hubungannya dengan elemen lain di sekitarnya. | Ruang di dalam elemen, mempengaruhi tampilan dan tata letak konten elemen.
+   | Dampak pada Ukuran       | Margin dapat memengaruhi ukuran keseluruhan elemen, membuatnya terlihat lebih besar dan memiliki ruang kosong di sekitarnya. | Padding tidak memengaruhi ukuran keseluruhan elemen; ukuran elemen tetap sama, hanya kontennya yang terdorong ke dalam.
+   | Pengaruh terhadap Konten         | Tidak ada pengaruh langsung terhadap konten elemen. | Memengaruhi tampilan dan tata letak konten dalam elemen.
+   | Tampilan Visual       | Tampilan visual dari margin adalah ruang kosong di sekitar elemen yang ditentukan oleh warna latar belakang elemen lain di sekitarnya | Tampilan visual dari padding adalah ruang kosong di sekitar konten elemen, yang ditentukan oleh warna latar belakang elemen itu sendiri.
+   | Pengaruh terhadap Konten         | Margin dapat digunakan dengan elemen blok maupun inline. | Padding biasanya digunakan dengan elemen blok; elemen inline memiliki padding horizontal tetapi tidak memiliki padding vertikal.
+
+# 4. Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+* Bootstrap:
+
+- Komponen Lebih Kaya: Bootstrap menyediakan beragam komponen UI yang sudah dirancang dengan baik, seperti navbar, tombol, kartu, formulir, dll. Ini membuatnya sangat cocok untuk proyek-proyek yang memerlukan komponen-komponen UI yang kaya dan kompleks.
+
+- Desain Responsif Terintegrasi: Bootstrap telah dirancang untuk responsif secara bawaan, yang berarti komponen-komponennya akan menyesuaikan diri dengan baik dengan perangkat seluler dan desktop.
+
+- Lebih Mudah untuk Pemula: Bootstrap memiliki dokumentasi yang sangat baik dan banyak tutorial yang tersedia, sehingga cocok untuk pemula yang ingin memulai dengan cepat.
+
+- Tema Bawaan: Bootstrap memiliki tema bawaan yang dapat gunakan sebagai dasar untuk mengatur gaya situs web.
+
+- Kekuatan CSS dan JavaScript: Bootstrap memiliki banyak opsi pengaturan CSS dan JavaScript yang dapat diaktifkan atau dinonaktifkan sesuai kebutuhan, yang memberikan fleksibilitas tambahan dalam pengembangan.
+
+Kapan Menggunakan Bootstrap:
+
+Saat memerlukan komponen-komponen UI yang sudah dirancang dengan baik.
+Ketika ingin memulai dengan cepat dan memiliki dokumentasi yang kuat sebagai panduan.
+Untuk proyek-proyek yang memerlukan desain responsif yang sudah terintegrasi secara otomatis.
+Jika ingin menggunakan tema bawaan sebagai dasar desain situs.
+
+* Tailwind CSS:
+
+- Pendekatan Utility-First: Tailwind CSS mengadopsi pendekatan "utility-first," yang berarti membangun tampilan situs dengan menggabungkan kelas-kelas utilitas CSS ke dalam elemen HTML. Ini memberikan tingkat fleksibilitas yang tinggi dalam mendesain tampilan.
+
+- Custom Styling: Tailwind memungkinkan dengan mudah menyesuaikan tampilan situs dengan mendefinisikan gaya sendiri menggunakan konfigurasi yang fleksibel.
+
+- Kontrol yang Lebih Besar: memiliki kontrol yang lebih besar atas setiap aspek desain, tetapi ini juga bisa menjadi kurva belajar yang lebih tinggi.
+
+- Ringan: Tailwind CSS lebih ringan dalam hal ukuran file dibandingkan dengan Bootstrap karena hanya menghasilkan CSS yang diperlukan.
+
+Kapan Menggunakan Tailwind CSS:
+
+Saat ingin memiliki kontrol yang tinggi atas desain tampilan.
+Untuk proyek-proyek yang memerlukan desain unik dan tidak ingin terlalu bergantung pada komponen-komponen UI yang sudah ada.
+Jika memiliki pengalaman dengan pendekatan utility-first atau ingin mempelajarinya. Untuk menghindari overhead dari komponen yang tidak digunakan.
+
+## **No 5**
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+* Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut:
+- Kustomisasi halaman login, register, dan tambah inventori
+
+* Halaman Login
+Pada halaman login saya mengimplementasi CSS itu sendiri kepada `login.html`. Berikut implementasinya:
+
+```
+/* CSS untuk halaman login */
+.login {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login h1 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login table {
+    width: 100%;
+}
+
+.login .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.login .login_btn {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.login .login_btn:hover {
+    background-color: #0056b3;
+}
+
+.login .message {
+    margin-top: 7px;
+    color: red;
+}
+
+.login a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}
+
+```
+Di dalam kode CSS tersebut, Saya telah mendefinisikan gaya-gaya untuk halaman login. Berikut adalah penjelasan singkat untuk beberapa gaya yang telah saya tentukan:
+
+.login: Ini adalah kelas untuk elemen utama yang mengelilingi halaman login. Saya telah mengatur beberapa properti seperti lebar maksimum, margin tengah, latar belakang, dan bayangan.
+
+.login h1: Ini adalah gaya untuk judul "Login" di dalam halaman. Saya telah mengatur ukuran font dan warna teks.
+
+.login table: Gaya ini tampaknya digunakan untuk mengatur lebar tabel.
+
+.login .form-control: Gaya ini digunakan untuk mengatur elemen input dengan kelas .form-control. Saya telah mengatur lebar, padding, border, dan border-radius.
+
+.login .login_btn: Ini adalah gaya untuk tombol "Login". Saya telah mengatur latar belakang tombol, warna teks, dan beberapa properti lainnya.
+
+.login .message: Gaya ini tampaknya digunakan untuk pesan kesalahan atau pesan lain yang ingin ditampilkan di halaman login. Saya telah mengatur margin atas dan warna teks merah.
+
+.login a dan .login a:hover: Ini adalah gaya untuk tautan di halaman login dan tautan saat dikursori. Saya telah mengatur ukuran font, dekorasi teks, dan warna tautan.
+
+
+* Halaman Register 
+Saya juga meinimplementasikan CSS ke dalam `register.html`. Berikut perubahannya:
+```
+<style>
+/* CSS untuk halaman pendaftaran */
+.register {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+}
+
+.register h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.register table {
+    width: 100%;
+}
+.register table label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+
+.register .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.register .submit-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.register .submit-btn:hover {
+    background-color: #1e7e34;
+}
+
+.register .message {
+    margin-top: 10px;
+    color: red;
+}
+
+.register a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+</style>
+```
+
+* Saya juga melakukan beberap perubahan di `main.html`. Salah satu contohnya adalah penambahana warna pada tombol tambah-kurang-hapus pada tabel item. 
+```
+<form method="post" action="{% url 'main:add_item' item.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Tambah</button>
+</form>
+<form method="post" action="{% url 'main:reduce_item' item.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning">Kurang</button>
+</form>
+<form method="post" action="{% url 'main:delete_item' item.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Hapus</button>
+</form>
+
+```
+
+Tombol "Tambah" memiliki kelas btn-success, yang memberikan warna hijau.
+Tombol "Kurang" memiliki kelas btn-warning, yang memberikan warna kuning.
+Tombol "Hapus" memiliki kelas btn-danger, yang memberikan warna merah.
+
+Jadi, implementasi penambahan warna pada tombol-tombol tersebut telah dilakukan dengan menggunakan kelas-kelas Bootstrap yang sesuai, seperti yang terlihat dalam kode di atas. Kita juga dapat menyesuaikan kelas-kelas ini sesuai dengan preferensi warna atau tampilan yang Anda inginkan dengan mengacu pada dokumentasi Bootstrap untuk lebih banyak pilihan warna dan gaya tombol.
+
+## Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan apporach lain seperti menggunakan Card.
+Saya telah mengimplementasikan kartu Bootstrap (Bootstrap card) di beberapa bagian dalam template HTML Anda. Kartu Bootstrap adalah komponen UI yang digunakan untuk menampilkan konten dalam kotak dengan latar belakang dan bingkai yang konsisten. Berikut ini adalah detail penggunaan kartu pada template Anda:
+
+- Kartu untuk Menampilkan Username dan Class: 
+```html
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title" style="color: #666;">Username:</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ username }}</p>
+    </div>
+</div>
+```
+
+Penggunaan: Kartu ini digunakan untuk menampilkan informasi "Username" dalam sebuah kotak dengan latar belakang dan bingkai yang konsisten.
+
+
+- Kartu untuk Menampilkan Character List:
+
+``` html
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title" style="color: #666;">Character List</h2>
+    </div>
+    <div class="card-body">
+        <!-- Isi konten karakter di sini -->
+    </div>
+</div>
+```
+Penggunaan: Kartu ini digunakan untuk menampilkan daftar karakter dalam kotak yang memiliki judul "Character List" dengan latar belakang dan bingkai yang konsisten.
+
+- Kartu untuk Membuat Item Baru:
+
+```html
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title" style="color: #666;">Create New Item</h2>
+    </div>
+    <div class="card-body">
+        <!-- Form untuk membuat item baru di sini -->
+    </div>
+</div>
+```
+Penggunaan: Kartu ini digunakan untuk menampilkan formulir untuk membuat item baru dalam kotak dengan judul "Create New Item" dengan latar belakang dan bingkai yang konsisten.
+
+- Kartu untuk Menampilkan Item List:
+
+```html
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title" style="color: #666;">Item List</h2>
+    </div>
+    <div class="card-body">
+        <!-- Tabel untuk menampilkan daftar item di sini -->
+    </div>
+</div>
+```
+Penggunaan: Kartu ini digunakan untuk menampilkan daftar item dalam sebuah kotak dengan judul "Item List" dengan latar belakang dan bingkai yang konsisten.
+
+= Kartu untuk Menampilkan Sesi Terakhir Login:
+
+```html
+<div class="card">
+    <div class="card-body">
+        <h5 class="text-center" style="color: #666; margin-top: 20px;">Sesi terakhir login: {{ last_login }}</h5>
+    </div>
+</div>
+```
+Penggunaan: Kartu ini digunakan untuk menampilkan informasi tentang sesi terakhir login dalam sebuah kotak dengan teks berwarna dan bingkai yang konsisten.
+
+Kartu Bootstrap digunakan di berbagai bagian dari halaman Anda untuk mengatur dan memformat konten dalam bentuk yang rapi dan konsisten. Mereka memungkinkan Anda untuk menampilkan informasi dengan gaya yang menarik dan sesuai dengan desain umum situs web Anda.
 =======
 `(**NOTES: Lakukan hal yang serupa pada bagian html item)`
 >>>>>>> 1bf2a98a90105d703f4b810111b2b344451396e4

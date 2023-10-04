@@ -1,40 +1,42 @@
 <!-- item_list.html -->
-<h2>Item List</h2>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    {% for item in items %}
-        <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.amount }}</td>
-            <td>{{ item.description }}</td>
-            <td>
-                <form method="post" action="{% url 'main:add_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Tambah</button>
-                </form>
-                <form method="post" action="{% url 'main:reduce_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Kurang</button>
-                </form>
-                <form method="post" action="{% url 'main:delete_item' item.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Hapus</button>
-                </form>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
+<div class="container">
+    <h2 class="text-center mb-5">Item List</h2>
+    <div class="row">
+        {% for item in items %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form method="post" action="{% url 'main:add_item' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success">Tambah</button>
+                            </form>
+                            <form method="post" action="{% url 'main:reduce_item' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning">Kurang</button>
+                            </form>
+                            <form method="post" action="{% url 'main:delete_item' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-
-<!-- Form Create Item -->
-<h2 style="margin-top: 20px;">Create New Item</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ item_form.as_p }}
-    <button type="submit" style="margin-top: 10px;">Create Item</button>
-</form>
+    <h2 class="mt-5">Create New Item</h2>
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ item_form.as_p }}
+                <button type="submit" class="btn btn-primary mt-3">Create Item</button>
+            </form>
+        </div>
+    </div>
+</div>
