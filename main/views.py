@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Character, Item
 from .forms import CharacterForm, ItemForm
 from django.http import HttpResponseRedirect
-import datetime
+import datetime, json
 from main.forms import ProductForm
 from main.models import Product
 from django.urls import reverse
@@ -14,6 +14,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages  
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponseNotFound
 
 def register(request):
     form = UserCreationForm()
@@ -87,7 +89,6 @@ def show_main(request):
     }
 
     return render(request, "main.html", context)
-
 
 def create_product(request):
     form = ProductForm(request.POST or None)
@@ -224,6 +225,19 @@ def create_item(request):
     context = {'item_form': item_form, 'characters': characters, 'error_message': error_message}
     return render(request, "item_list.html", context)
 
+def get_items(request):
+    items = Item.objects.all()  # Gantilah sesuai dengan model Item Anda
+    item_data = []
+
+    for item in items:
+        item_data.append({
+            'name': item.name,
+            'amount': item.amount,
+            'description': item.description,
+            'owner': item.owner.name if item.owner else None,  # Jika ada pemilik, gunakan nama pemilik, jika tidak, None
+        })
+
+    return JsonResponse({'items': item_data})
 
 def add_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
@@ -244,7 +258,58 @@ def delete_item(request, item_id):
     item.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
 
+def get_Item_json(request):
+    product_item = Item.objects.all()
+    return HttpResponse(serializers.serialize('json', product_item))
+
+def get_Char_json(request):
+    char_list = Character.objects.all()
+    return HttpResponse(serializers.serialize('json', char_list))
 
 
+@csrf_exempt  # mematikan proteksi CSRF; gunakan dengan hati-hati!
+def create_item_ajax(request):    
+    if request.method == "POST":
+        item_form = ItemForm(request.POST, user=request.user)
+        print(item_form.is_valid())
+        if item_form.is_valid():
+            item = item_form.save(commit=False)
+
+            # Dapatkan karakter yang dipilih oleh pengguna melalui formulir
+            selected_character = item_form.cleaned_data['owner']
+
+            # Pastikan karakter tersebut dimiliki oleh pengguna saat ini
+            if selected_character.user == request.user:
+                item.owner = selected_character
+
+                # Debug: Print item data
+                print(item.name, item.amount, item.description, item.owner)
+
+                item.save()
+                return HttpResponse(b"CREATED", status=201)
+    else:
+        return HttpResponseNotFound() 
+    
+@csrf_exempt  # mematikan proteksi CSRF; gunakan dengan hati-hati!
+def create_character_ajax(request):    
+    if request.method == 'POST':
+        character_form = CharacterForm(request.POST)
+        if character_form.is_valid():
+            character = character_form.save(commit=False)
+            character.user = request.user  # Menyediakan pengguna yang terkait
+            character.save()
+            return HttpResponse(b"CREATED", status=201)
+
+    else:
+        return HttpResponseNotFound() 
+
+@csrf_exempt 
+def delete_item_ajax(request,id):
+    if request.method == "POST":
+        item = Item.objects.get(id=id)
+        item.delete()
+        return HttpResponse(b"OK", status=200)
+    else:
+        return HttpResponseNotFound()
 
 # Create your views here.

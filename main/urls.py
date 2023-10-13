@@ -23,6 +23,13 @@ urlpatterns = [
     path('add_item/<int:item_id>/', views.add_item, name='add_item'),
     path('reduce_item/<int:item_id>/', views.reduce_item, name='reduce_item'),
     path('delete_item/<int:item_id>/', views.delete_item, name='delete_item'),
+    path('create-item-ajax/', views.create_item_ajax, name='create_item_ajax'),
+    path('create-character-ajax/', views.create_character_ajax, name='create_character_ajax'),
+    path('get-item-json/', get_Item_json, name='get_item_json'),
+    path('get-char-json/', get_Char_json, name='get_char_json'),
+    path('delete-item-ajax/<int:id>', views.delete_item_ajax, name='delete_item_ajax'),
+
+
 
 
 

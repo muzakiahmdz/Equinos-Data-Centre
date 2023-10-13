@@ -1220,6 +1220,190 @@ Penggunaan: Kartu ini digunakan untuk menampilkan daftar item dalam sebuah kotak
 Penggunaan: Kartu ini digunakan untuk menampilkan informasi tentang sesi terakhir login dalam sebuah kotak dengan teks berwarna dan bingkai yang konsisten.
 
 Kartu Bootstrap digunakan di berbagai bagian dari halaman Anda untuk mengatur dan memformat konten dalam bentuk yang rapi dan konsisten. Mereka memungkinkan Anda untuk menampilkan informasi dengan gaya yang menarik dan sesuai dengan desain umum situs web Anda.
+
+# Tugas 6
+## **No 1**
+1. Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+* Asynchronous programming memungkinkan eksekusi tugas-tugas secara paralel atau sekuensial tanpa harus menunggu tugas sebelumnya selesai, sehingga dapat meningkatkan responsivitas dan efisiensi program, terutama dalam kasus operasi I/O yang memerlukan waktu lama atau komunikasi dengan sumber eksternal. Di sisi lain, synchronous programming mengeksekusi tugas-tugas secara berurutan, yang sederhana namun dapat menyebabkan program terblokir jika terdapat tugas dengan waktu eksekusi yang lama. Pemilihan antara keduanya harus didasarkan pada kebutuhan aplikasi dan kompleksitas tugas yang dihadapi.
+
+
+## **No 2**
+2. Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini. 
+* Paradigma event-driven programming merupakan di mana alur eksekusi program ditentukan oleh sejumlah peristiwa, seperti tindakan _user_ (klik mouse, klik keyboard) atau pesan dari program lain atau thread. Contohnya, pada tugas ini, event-driven programming digunakan untuk menangani event yang terjadi pada aplikasi web seperti klik tombol, input teks, dan lain-lain.
+* Contoh penerapannya pada tugas kali ini adalah: 
+   ` document.getElementById("button_add_char").onclick = addChar `
+
+
+## **No 3**
+3. Jelaskan penerapan asynchronous programming pada AJAX.
+* Dalam AJAX, asynchronous programming memungkinkan kita untuk mengambil informasi dari server tanpa perlu memperbarui seluruh halaman. Dengan _asynchronous programming_, saat permintaan dikirim ke server, eksekusi program lain dapat berlanjut tanpa menunggu balasan dari server. Begitu balasan diterima, program kemudian menjalankan fungsi tertentu untuk memproses informasi tersebut. Pendekatan ini meningkatkan efisiensi dan responsivitas aplikasi web, memberikan pengalaman yang lebih mulus bagi pengguna tanpa perlu menunggu pembaruan halaman penuh.
+
+
+## **No 4**
+4. Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan
+* Sejak munculnya AJAX, library jQuery telah menjadi instrumen utama dalam implementasinya, menawarkan cara sederhana untuk melakukan permintaan asinkron. Keunggulan dari AJAX melalui jQuery terletak pada kompatibilitas lintas browser-nya, memastikan fungsionalitas bahkan pada browser yang lebih tua yang belum mendukung teknologi web terkini. Namun, seiring berjalannya waktu, browser modern telah menawarkan Fetch API yang merupakan fitur bawaan browser modern, memungkinkan permintaan asinkron tanpa kebutuhan library tambahan. Fetch API menyediakan fleksibilitas lebih dalam mengelola permintaan dan respons, dan mendukung teknologi terbaru seperti promises dan async/await. Mengingat Fetch API adalah standar web modern, dukungan lintas browser sudah luas, dan ini menghilangkan kebutuhan library tambahan. 
+* Untuk sekarang, Fetch API sering kali dipilih karena kode yang lebih efisien, tidak adanya ketergantungan, dan kapabilitas aslinya. Meskipun demikian, untuk aplikasi yang fokus pada kompatibilitas atau telah mengadopsi jQuery sepenuhnya, AJAX melalui jQuery masih memiliki tempatnya.
+
+## **No 5**
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+* Mengubah tugas 5 yang dibuat sebelumnya menjadi menggunakan AJAX
+  - AJAX GET
+    * Membuat Fungsi untuk Mengembalikan Data JSON
+    ```py
+    def get_Item_json(request):
+    product_item = Item.objects.all()
+    return HttpResponse(serializers.serialize('json', product_item))
+
+    def get_Char_json(request):
+    char_list = Character.objects.all()
+    return HttpResponse(serializers.serialize('json', char_list))
+
+    ```
+    * Membuat fungsi create ajax
+    ```py 
+        @csrf_exempt  # mematikan proteksi CSRF; gunakan dengan hati-hati!
+    def create_item_ajax(request):    
+        if request.method == "POST":
+            item_form = ItemForm(request.POST, user=request.user)
+            print(item_form.is_valid())
+            if item_form.is_valid():
+                item = item_form.save(commit=False)
+
+                # Dapatkan karakter yang dipilih oleh pengguna melalui formulir
+                selected_character = item_form.cleaned_data['owner']
+
+                # Pastikan karakter tersebut dimiliki oleh pengguna saat ini
+                if selected_character.user == request.user:
+                    item.owner = selected_character
+
+                    # Debug: Print item data
+                    print(item.name, item.amount, item.description, item.owner)
+
+                    item.save()
+                    return HttpResponse(b"CREATED", status=201)
+        else:
+            return HttpResponseNotFound() 
+        
+    @csrf_exempt  # mematikan proteksi CSRF; gunakan dengan hati-hati!
+    def create_character_ajax(request):    
+        if request.method == 'POST':
+            character_form = CharacterForm(request.POST)
+            if character_form.is_valid():
+                character = character_form.save(commit=False)
+                character.user = request.user  # Menyediakan pengguna yang terkait
+                character.save()
+                return HttpResponse(b"CREATED", status=201)
+
+    else:
+        return HttpResponseNotFound() 
+    
+    ```
+    * Setting url
+    ```
+    path('get-item-json/', get_Item_json, name='get_item_json'),
+    path('get-char-json/', get_Char_json, name='get_char_json'), 
+
+    ```
+    * Ubah bagian table
+    ```
+    <table id="product_table"></table>
+    ```
+    * Taro bagian getter ke dalam script
+    ```py 
+    <script>
+    async function getItem() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+    async function getChar() {
+        return fetch("{% url 'main:get_char_json' %}").then((res) => res.json())
+    }
+    <script/>
+
+    ```
+    - AJAX POST
+    ```
+    * Tambahkan add product AJAX (AJAX POST)
+    ```
+    function addItem() {
+        fetch("{% url 'main:create_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshItems)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    document.getElementById("button_add").onclick = addItem
+
+    ```
+
+    * Atur routing 
+    ```
+    path('create-item-ajax/', views.create_item_ajax, name='create_item_ajax'),
+    path('create-character-ajax/', views.create_character_ajax, name='create_character_ajax'),
+    ```
+
+    * Buatlah function async dalam tabel (cth disini tabel item)
+    ```
+    async function refreshItems() {
+        document.getElementById("product_table").innerHTML = ""
+        const products = await getItem()
+        let htmlString = `<tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Owner</th>
+            <th> Delete </th>
+        </tr>`
+        products.forEach((item) => {
+            htmlString += `\n<tr>
+            <td>${item.fields.name}</td>
+            <td>${item.fields.amount}</td>
+            <td>${item.fields.description}</td>
+            <td>${item.fields.owner}</td>
+            <td><button type="button" class="btn btn-danger" onclick="deleteItemAJAX(${item.pk})">Delete</button></td>
+        </tr>` 
+        })
+        
+        document.getElementById("product_table").innerHTML = htmlString
+    }
+
+    refreshItems()
+    ```
+
+- Melakukan perintah collectstatic
+    - Pada settings.py, tambahkan `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')` di bawah STATIC_URL.
+    - Jalankan perintah python manage.py collectstatic untuk mengumpulkan semua file static ke folder staticfiles.
+
+## **No 6**
+* BONUS tugas 6
+  - Menambahkan fungsionalitas hapus dengan menggunakan AJAX DELETE
+ ```python
+        @csrf_exempt 
+    def delete_item_ajax(request,id):
+        if request.method == "POST":
+            item = Item.objects.get(id=id)
+            item.delete()
+            return HttpResponse(b"OK", status=200)
+        else:
+            return HttpResponseNotFound()
+      ```
+    - Lakukan routing pada `urls.py`
+      ```python
+        path('delete-item-ajax/<int:id>/', delete_item_ajax, name='delete_item_ajax'),
+      ```
+    - Buat function delete di main
+    ```
+    function deleteItemAJAX(id){
+        fetch(`/delete-item-ajax/${id}`, {
+            method: "POST",
+        
+        }).then(refreshItems)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    ```
 =======
 `(**NOTES: Lakukan hal yang serupa pada bagian html item)`
 >>>>>>> 1bf2a98a90105d703f4b810111b2b344451396e4
